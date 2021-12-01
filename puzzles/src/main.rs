@@ -1,8 +1,8 @@
-use crate::part1::count_increasing_measurements;
-use crate::part2::count_increasing_sliding_windows;
+use crate::part1_a::count_increasing_measurements;
+use crate::part1_b::count_increasing_sliding_windows;
 
-pub mod part2;
-pub mod part1;
+pub mod part1_a;
+pub mod part1_b;
 fn main() {
     let input = [
         127, 147, 148, 147, 146, 153, 154, 167, 184, 181, 194, 183, 188, 195, 193, 207, 208, 220,

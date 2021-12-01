@@ -1,15 +1,12 @@
 pub fn count_increasing_sliding_windows(measurements: Vec<i32>) -> i32 {
-    let mut sliding_windows: Vec<i32> = Vec::new();
+    let mut sliding_windows = Vec::new();
 
-    for (position, current_value) in measurements.iter().enumerate() {
+    for (position, _current_value) in measurements.iter().enumerate() {
         if position == 0 || position >= measurements.len() - 1 {
             continue;
         }
 
-        let previous_value = measurements[position - 1];
-        let next_value = measurements[position + 1];
-
-        let sliding_window_sum = previous_value + current_value + next_value;
+        let sliding_window_sum = measurements[position-1..position+2].iter().sum();
         sliding_windows.push(sliding_window_sum);
     }
 
