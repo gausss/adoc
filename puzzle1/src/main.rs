@@ -1,3 +1,8 @@
+use crate::part1::count_increasing_measurements;
+use crate::part2::count_increasing_sliding_windows;
+
+pub mod part2;
+pub mod part1;
 fn main() {
     let input = [
         127, 147, 148, 147, 146, 153, 154, 167, 184, 181, 194, 183, 188, 195, 193, 207, 208, 220,
@@ -134,37 +139,6 @@ fn main() {
         8585, 8586, 8594, 8593,
     ];
 
-    println!("Result: {}", solve(input.to_vec()));
-}
-
-pub fn solve(measurements: Vec<i32>) -> i32 {
-    let mut count = 0;
-
-    for (position, current_value) in measurements.iter().enumerate() {
-        if position == 0 {
-            continue;
-        }
-
-        let previous_value = measurements[position - 1];
-        if current_value > &previous_value {
-            count = count + 1;
-            println!("({}) {} is larger than {}", count, current_value, previous_value);
-        } else {
-            println!("({}) {} is smaller than {}", count, current_value, previous_value);
-        }
-    }
-
-    return count;
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_add() {
-        let input_values: [i32; 10] = [199, 200, 208, 210, 200, 207, 240, 269, 260, 263];
-
-        assert_eq!(solve(input_values.to_vec()), 7);
-    }
+    println!("Result 1.1: {}", count_increasing_measurements(input.to_vec()));
+    println!("Result 1.2: {}", count_increasing_sliding_windows(input.to_vec()));
 }
