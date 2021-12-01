@@ -1,33 +1,14 @@
+use crate::part1_a::count_increasing_measurements;
+
 pub fn count_increasing_sliding_windows(measurements: Vec<i32>) -> i32 {
-    let mut sliding_windows = Vec::new();
-
-    for (position, _current_value) in measurements.iter().enumerate() {
-        if position == 0 || position >= measurements.len() - 1 {
-            continue;
-        }
-
-        let sliding_window_sum = measurements[position-1..position+2].iter().sum();
-        sliding_windows.push(sliding_window_sum);
-    }
+    let sliding_windows = measurements
+        .iter()
+        .zip(measurements.iter().skip(1))
+        .zip(measurements.iter().skip(2))
+        .map(|((a, b), c)| a + b + c)
+        .collect();
 
     return count_increasing_measurements(sliding_windows);
-}
-
-fn count_increasing_measurements(measurements: Vec<i32>) -> i32 {
-    let mut count = 0;
-
-    for (position, current_value) in measurements.iter().enumerate() {
-        if position == 0 {
-            continue;
-        }
-
-        let previous_value = measurements[position - 1];
-        if current_value > &previous_value {
-            count = count + 1;
-        }
-    }
-
-    return count;
 }
 
 #[cfg(test)]

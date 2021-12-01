@@ -1,18 +1,9 @@
 pub fn count_increasing_measurements(measurements: Vec<i32>) -> i32 {
-    let mut count = 0;
-
-    for (position, current_value) in measurements.iter().enumerate() {
-        if position == 0 {
-            continue;
-        }
-
-        let previous_value = measurements[position - 1];
-        if current_value > &previous_value {
-            count = count + 1;
-        }
-    }
-
-    return count;
+    return measurements
+        .iter()
+        .zip(measurements.iter().skip(1))
+        .filter(|(a, b)| b > a)
+        .count() as i32;
 }
 
 #[cfg(test)]
