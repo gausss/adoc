@@ -26,10 +26,9 @@ pub fn compute_position(movements: Vec<&str>) -> i32 {
     };
 
     for movement_string in movements {
-        let movement_parts: Vec<String> = movement_string
+        let movement_parts: Vec<&str> = movement_string
             .split_whitespace()
             .into_iter()
-            .map(|s| s.to_string())
             .collect();
         let movement = Movement {
             direction: movement_parts[0].to_string(),

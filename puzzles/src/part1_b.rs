@@ -17,7 +17,7 @@ mod tests {
 
     #[test]
     fn test() {
-        let input_values: [i32; 10] = [199, 200, 208, 210, 200, 207, 240, 269, 260, 263];
+        let input_values = [199, 200, 208, 210, 200, 207, 240, 269, 260, 263];
 
         assert_eq!(count_increasing_sliding_windows(input_values.to_vec()), 5);
     }
