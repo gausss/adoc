@@ -1,71 +1,58 @@
-use math::round;
-
 pub fn compute_life_support(diagnostic_strings: Vec<&str>) -> i32 {
-    let width = diagnostic_strings[0].len();
-    let height = diagnostic_strings.len();
-
-    let diagnostics = diagnostic_strings
-        .into_iter()
-        .map(|d_string| d_string.chars().collect::<Vec<char>>())
-        .flatten()
-        .map(|binary| binary.to_digit(10).unwrap())
-        .collect::<Vec<u32>>();
-
-    let mut t_diagnostics = vec![0; diagnostics.len()];
-    transpose::transpose(&diagnostics, &mut t_diagnostics, width, height);
-    let diagnostic_columns = t_diagnostics;
-
-    let column_binary = diagnostic_columns
-        .chunks(height)
-        .into_iter()
-        .map(|diagnostic_column| {
-            round::half_up(
-                diagnostic_column.iter().sum::<u32>() as f64 / diagnostic_column.len() as f64,
-                0,
-            )
-        })
-        .map(|column_value| column_value as u32)
-        .collect::<Vec<u32>>();
-
-    let most_common = column_binary
+    let max_index = diagnostic_strings.get(0).unwrap().len();
+    let diagnostics_rows: Vec<Vec<char>> = diagnostic_strings
         .iter()
-        .map(|result| char::from_digit(*result, 10).unwrap())
-        .collect::<Vec<char>>();
-    let least_common = column_binary
-        .iter()
-        .map(|f| match f {
-            1 => 0,
-            0 => 1,
-            _ => 0,
-        })
-        .map(|f| f as u32)
-        .map(|result| char::from_digit(result, 10).unwrap())
-        .collect::<Vec<char>>();
+        .map(|line| line.chars().collect())
+        .collect();
 
-    let oxygen_binary = diagnostic_strings
-        .into_iter()
-        .filter(|val| matches_criteria(val.to_string(), most_common))
-        .collect::<Vec<&str>>()[0];
+    let mut oxygen_candidates = diagnostics_rows.clone();
+    let mut carbo_candidates = diagnostics_rows.clone();
+    for position in 0..max_index {
+        if oxygen_candidates.len() > 1 {
+            let commons_oxygen = compute_commons(&oxygen_candidates, position);
+            oxygen_candidates = clean_candidates(&mut oxygen_candidates, position, &commons_oxygen.1);
+        }
 
-    let co2_binary = diagnostic_strings
-        .into_iter()
-        .filter(|val| matches_criteria(val.to_string(), least_common))
-        .collect::<Vec<&str>>()[0];
-
-    let oxygen = isize::from_str_radix(&oxygen_binary, 2).unwrap() as i32;
-    let co2 = isize::from_str_radix(&co2_binary, 2).unwrap() as i32;
-    return oxygen * co2;
-}
-
-fn matches_criteria(diagnostic_string: String, criteria: Vec<char>) -> bool {
-    let chars = diagnostic_string.chars().collect::<Vec<char>>();
-    for (position, criteria_at) in criteria.iter().enumerate() {
-        if criteria_at.eq(&chars[position]) {
-            return false;
+        if carbo_candidates.len() > 1 {
+            let commons_carbo = compute_commons(&carbo_candidates, position);
+            carbo_candidates = clean_candidates(&mut carbo_candidates, position, &commons_carbo.0);
         }
     }
 
-    return true;
+    let oxygen_string: String = oxygen_candidates.get(0).unwrap().iter().map(|digit| digit.to_string()).collect();
+    let carbo_string: String = carbo_candidates.get(0).unwrap().iter().map(|digit| digit.to_string()).collect();
+
+    let oxygen = isize::from_str_radix(&oxygen_string, 2).unwrap() as i32;
+    let carbo = isize::from_str_radix(&carbo_string, 2).unwrap() as i32;
+    return oxygen * carbo;
+}
+
+fn compute_commons(rows: &Vec<Vec<char>>, position: usize) -> (char, char) {
+    let mut values = Vec::new();
+    for row in rows {
+        values.push(row.get(position).unwrap());
+    }
+
+    let length: f32 = values.len() as f32;
+    let sum: u32 = values.iter().map(|num| num.to_digit(10).unwrap()).sum();
+    let ratio = (sum as f32) / length;
+
+    return if ratio >= 0.5 {
+        ('0', '1')
+    } else {
+        ('1', '0')
+    };
+}
+
+fn clean_candidates(rows: &mut Vec<Vec<char>>, position: usize, match_value: &char) -> Vec<Vec<char>> {
+    let mut values = Vec::new();
+    for row in rows {
+        if row.get(position).unwrap() == match_value {
+            values.push(row.clone());
+        }
+    }
+
+    return values;
 }
 
 #[cfg(test)]

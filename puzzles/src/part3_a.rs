@@ -1,42 +1,38 @@
-use math::round;
-
 pub fn compute_power_consumption(diagnostic_strings: Vec<&str>) -> i32 {
-    let width = diagnostic_strings[0].len();
-    let height = diagnostic_strings.len();
+    let max_index = diagnostic_strings.get(0).unwrap().len();
+    let diagnostics_rows: Vec<Vec<char>> = diagnostic_strings
+        .iter()
+        .map(|line| line.chars().collect())
+        .collect();
 
-    let diagnostics = diagnostic_strings
-        .into_iter()
-        .map(|d_string| d_string.chars().collect::<Vec<char>>())
-        .flatten()
-        .map(|binary| binary.to_digit(10).unwrap())
-        .collect::<Vec<u32>>();
+    let mut gamma = String::from("");
+    let mut epsilon = String::from("");
+    for position in 0..max_index {
+        let commons = compute_commons(&diagnostics_rows, position);
+        gamma.push_str(commons.1);
+        epsilon.push_str(commons.0);
+    }
 
-    let mut t_diagnostics = vec![0; diagnostics.len()];
-    transpose::transpose(&diagnostics, &mut t_diagnostics, width, height);
-    let diagnostic_columns = t_diagnostics;
-    
-    let column_binary = diagnostic_columns
-        .chunks(height)
-        .into_iter()
-        .map(|diagnostic_column| {
-            round::half_up(
-                diagnostic_column.iter().sum::<u32>() as f64 / diagnostic_column.len() as f64,
-                0,
-            )
-        })
-        .map(|column_value| column_value.to_string())
-        .collect::<Vec<String>>();
-        
-        let gamma_binary = column_binary.join("");
-        let epislon_binary = column_binary.iter().map(|f| match f.as_str() {
-            "1" => "0",
-            "0" => "1",
-            _ => "",
-        }).map(|f| f.to_string()).collect::<Vec<String>>().join("");
-
-        let gamma = isize::from_str_radix(&gamma_binary, 2).unwrap() as i32;
-        let epsilon = isize::from_str_radix(&epislon_binary, 2).unwrap() as i32;
+    let gamma = isize::from_str_radix(&gamma, 2).unwrap() as i32;
+    let epsilon = isize::from_str_radix(&epsilon, 2).unwrap() as i32;
     return gamma * epsilon;
+}
+
+fn compute_commons(rows: &Vec<Vec<char>>, position: usize) -> (&str, &str) {
+    let mut values = Vec::new();
+    for row in rows {
+        values.push(row.get(position).unwrap());
+    }
+
+    let length: f32 = values.len() as f32;
+    let sum: u32 = values.iter().map(|num| num.to_digit(10).unwrap()).sum();
+    let ratio = (sum as f32) / length;
+
+    return if ratio > 0.5 {
+        ("0", "1")
+    } else {
+        ("1", "0")
+    };
 }
 
 #[cfg(test)]

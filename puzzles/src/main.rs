@@ -11,6 +11,7 @@ pub mod part2_a;
 pub mod part2_b;
 pub mod part3_a;
 pub mod part3_b;
+
 fn main() {
     let input1 = [
         127, 147, 148, 147, 146, 153, 154, 167, 184, 181, 194, 183, 188, 195, 193, 207, 208, 220,
