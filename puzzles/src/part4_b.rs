@@ -2,36 +2,33 @@ use std::fs::File;
 use std::io::{BufRead, BufReader};
 
 pub struct Game {
-    boards: Vec<(Board, bool)>,
+    boards: Vec<Board>,
 }
 
 impl Game {
-    fn mark_number(&mut self, number: i32) {
-        for board in self.boards.iter_mut() {
-            board.0.mark_number(number);
-        }
-    }
-
-    fn has_bingo(&self) -> bool {
-        self.boards.iter().any(|board| board.1 == false && board.0.has_bingo())
-    }
-
-    fn bingo_board(&self) -> &(Board, bool) {
-        self.boards.iter().filter(|board| board.1 == false && board.0.has_bingo()).last().unwrap()
-    }
-
-    pub fn play(&mut self, input_sequence: Vec<i32>) -> i32 {
-        for input_num in input_sequence {
-            println!("Drawing {}", input_num);
-            self.mark_number(input_num);
-            if self.has_bingo() {
-                let result = self.bingo_board().0.sum_unmarked() * input_num;
-                println!("{}", result);
-                return result;
+    fn mark_number(&mut self, number: i32) -> i32 {
+        let mut winning_index: i32 = -1;
+        for board in self.boards.iter_mut().enumerate() {
+            if board.1.mark_number(number) {
+                winning_index = board.0 as i32;
             }
         }
 
-        return 0;
+        return winning_index;
+    }
+
+    pub fn play(&mut self, input_sequence: Vec<i32>) -> i32 {
+        let mut last_result = 0;
+        for input_num in input_sequence {
+            println!("Drawing {}", input_num);
+            let winning_index = self.mark_number(input_num);
+            if winning_index != -1 {
+                last_result = self.boards.get(winning_index as usize).unwrap().sum_unmarked() * input_num;
+                println!("Bingo! in board {} with result {}", winning_index, last_result);
+            }
+        }
+
+        return last_result;
     }
 
     pub fn new(file_path: &str) -> Self {
@@ -50,7 +47,7 @@ impl Game {
                     .map(|bingo_val| (bingo_val, false)).collect();
                 rows.push(row);
             } else {
-                boards.push((Board { rows: rows.to_vec() }, false));
+                boards.push(Board { had_bingo: false, rows: rows.to_vec() });
                 rows.clear();
             }
         }
@@ -59,13 +56,13 @@ impl Game {
     }
 }
 
-#[derive(PartialEq)]
 struct Board {
+    had_bingo: bool,
     rows: Vec<Vec<(i32, bool)>>,
 }
 
 impl Board {
-    fn mark_number(&mut self, number: i32) {
+    fn mark_number(&mut self, number: i32) -> bool {
         for row in self.rows.iter_mut() {
             for val in row.iter_mut() {
                 if val.0 == number {
@@ -73,10 +70,17 @@ impl Board {
                 }
             }
         }
+
+        let has_bingo = self.has_bingo();
+        if has_bingo {
+            self.had_bingo = true;
+        }
+
+        return has_bingo;
     }
 
     fn has_bingo(&self) -> bool {
-        self.has_row_bingo() || self.has_column_bingo()
+        !self.had_bingo && (self.has_row_bingo() || self.has_column_bingo())
     }
 
     fn has_row_bingo(&self) -> bool {
@@ -105,7 +109,6 @@ impl Board {
 
 #[cfg(test)]
 mod tests {
-
     use super::*;
 
     #[test]
@@ -113,6 +116,6 @@ mod tests {
         let input_sequence = vec![
             7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21, 24, 10, 16, 13, 6, 15, 25, 12, 22, 18, 20, 8, 19, 3, 26, 1];
         let mut game = Game::new("src/part4_test_input.txt");
-        assert_eq!(game.play(input_sequence), 4512);
+        assert_eq!(game.play(input_sequence), 1924);
     }
 }

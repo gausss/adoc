@@ -2,29 +2,29 @@ use std::fs::File;
 use std::io::{BufRead, BufReader};
 
 pub struct Game {
-    boards: Vec<(Board, bool)>,
+    boards: Vec<Board>,
 }
 
 impl Game {
     fn mark_number(&mut self, number: i32) {
         for board in self.boards.iter_mut() {
-            board.0.mark_number(number);
+            board.mark_number(number);
         }
     }
 
     fn has_bingo(&self) -> bool {
-        self.boards.iter().any(|board| board.1 == false && board.0.has_bingo())
+        self.boards.iter().any(|board| board.has_bingo())
     }
 
-    fn bingo_board(&self) -> &(Board, bool) {
-        self.boards.iter().filter(|board| board.1 == false && board.0.has_bingo()).last().unwrap()
+    fn bingo_board(&self) -> &Board {
+        self.boards.iter().filter(|board| board.has_bingo()).last().unwrap()
     }
 
     pub fn play(&mut self, input_sequence: Vec<i32>) -> i32 {
         for input_num in input_sequence {
             self.mark_number(input_num);
             if self.has_bingo() {
-                let result = self.bingo_board().0.sum_unmarked() * input_num;
+                let result = self.bingo_board().sum_unmarked() * input_num;
                 return result;
             }
         }
@@ -48,7 +48,7 @@ impl Game {
                     .map(|bingo_val| (bingo_val, false)).collect();
                 rows.push(row);
             } else {
-                boards.push((Board { rows: rows.to_vec() }, false));
+                boards.push(Board { rows: rows.to_vec() });
                 rows.clear();
             }
         }
