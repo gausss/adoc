@@ -6,6 +6,7 @@ use crate::part3_a::compute_power_consumption;
 use crate::part3_b::compute_life_support;
 use crate::part4_a::Game;
 use crate::part4_b::Game as GameB;
+use crate::part5_a::compute_overlapping_lines;
 
 pub mod part1_a;
 pub mod part1_b;
@@ -15,6 +16,7 @@ pub mod part3_a;
 pub mod part3_b;
 mod part4_a;
 mod part4_b;
+mod part5_a;
 
 fn main() {
     let input1 = [
@@ -2180,4 +2182,6 @@ fn main() {
     let mut game_b = GameB::new("src/part4_input.txt");
     let input4b = vec![0, 56, 39, 4, 52, 7, 73, 57, 65, 13, 3, 72, 69, 96, 18, 9, 49, 83, 24, 31, 12, 64, 29, 21, 80, 71, 66, 95, 2, 62, 68, 46, 11, 33, 74, 88, 17, 15, 5, 6, 98, 30, 51, 78, 76, 75, 28, 53, 87, 48, 20, 22, 55, 86, 82, 90, 47, 19, 25, 1, 27, 60, 94, 38, 97, 58, 70, 10, 43, 40, 89, 26, 34, 32, 23, 45, 50, 91, 61, 44, 35, 85, 63, 16, 99, 92, 8, 36, 81, 84, 79, 37, 93, 67, 59, 54, 41, 77, 42, 14];
     println!("Result 4.B: {}", game_b.play(input4b));
+
+    println!("Result 5.A: {}", compute_overlapping_lines("src/part5_input.txt"));
 }
