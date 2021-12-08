@@ -20,11 +20,9 @@ impl Game {
     pub fn play(&mut self, input_sequence: Vec<i32>) -> i32 {
         let mut last_result = 0;
         for input_num in input_sequence {
-            println!("Drawing {}", input_num);
             let winning_index = self.mark_number(input_num);
             if winning_index != -1 {
                 last_result = self.boards.get(winning_index as usize).unwrap().sum_unmarked() * input_num;
-                println!("Bingo! in board {} with result {}", winning_index, last_result);
             }
         }
 

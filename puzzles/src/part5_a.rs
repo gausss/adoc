@@ -47,14 +47,6 @@ impl Vector {
         return positions;
     }
 
-    pub fn is_diagonal(&self) -> bool {
-        let line = (
-            self.direction.1.x - self.direction.0.x,
-            self.direction.1.y - self.direction.0.y,
-        );
-        line.0 == 0 || line.1 == 0
-    }
-
     pub fn from_points_file(file_path: &str) -> Vec<Vector> {
         let file = File::open(file_path).unwrap();
         let lines = BufReader::new(file).lines();
@@ -103,7 +95,6 @@ pub fn compute_overlapping_lines(file_path: &str) -> i32 {
         }
     }
 
-    println!("{:?}", coordinates_values);
     return coordinates_values.iter().filter(|val| val.1 > &1).count() as i32;
 }
 

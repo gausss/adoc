@@ -62,8 +62,6 @@ impl Vector {
                 .zip(y_span)
                 .map(|span| (span.0.to_owned(), span.1))
                 .collect();
-
-            println!("Diagonal: {:?} -> {:?}", self, span);
             return span;
         }
 
