@@ -42,17 +42,32 @@ impl Vector {
             {
                 positions.push((self.direction.0.x, y));
             }
+        } else {
+            let x_span : Vec<i32>;
+            if self.direction.0.x < self.direction.1.x {
+                x_span = (self.direction.0.x..self.direction.1.x + 1).collect();
+            } else {
+                x_span = (self.direction.1.x..self.direction.0.x + 1).rev().collect();
+            }
+
+            let y_span: Vec<i32>;
+            if self.direction.0.y < self.direction.1.y {
+                y_span = (self.direction.0.y..self.direction.1.y + 1).collect();
+            } else {
+                y_span = (self.direction.1.y..self.direction.0.y + 1).rev().collect();
+            }
+
+            let span = x_span
+                .iter()
+                .zip(y_span)
+                .map(|span| (span.0.to_owned(), span.1))
+                .collect();
+
+            println!("Diagonal: {:?} -> {:?}", self, span);
+            return span;
         }
 
         return positions;
-    }
-
-    pub fn is_diagonal(&self) -> bool {
-        let line = (
-            self.direction.1.x - self.direction.0.x,
-            self.direction.1.y - self.direction.0.y,
-        );
-        line.0 == 0 || line.1 == 0
     }
 
     pub fn from_points_file(file_path: &str) -> Vec<Vector> {
@@ -103,7 +118,6 @@ pub fn compute_overlapping_lines(file_path: &str) -> i32 {
         }
     }
 
-    println!("{:?}", coordinates_values);
     return coordinates_values.iter().filter(|val| val.1 > &1).count() as i32;
 }
 
@@ -113,6 +127,6 @@ mod tests {
 
     #[test]
     fn test() {
-        assert_eq!(compute_overlapping_lines("src/part5_test_input.txt"), 5);
+        assert_eq!(compute_overlapping_lines("src/part5_test_input.txt"), 12);
     }
 }

@@ -7,6 +7,7 @@ use crate::part3_b::compute_life_support;
 use crate::part4_a::Game;
 use crate::part4_b::Game as GameB;
 use crate::part5_a::compute_overlapping_lines;
+use crate::part5_b::compute_overlapping_lines as compute_overlapping_lines_all;
 
 pub mod part1_a;
 pub mod part1_b;
@@ -17,6 +18,7 @@ pub mod part3_b;
 mod part4_a;
 mod part4_b;
 mod part5_a;
+mod part5_b;
 
 fn main() {
     let input1 = [
@@ -2184,4 +2186,5 @@ fn main() {
     println!("Result 4.B: {}", game_b.play(input4b));
 
     println!("Result 5.A: {}", compute_overlapping_lines("src/part5_input.txt"));
+    println!("Result 5.B: {}", compute_overlapping_lines_all("src/part5_input.txt"));
 }
