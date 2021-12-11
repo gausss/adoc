@@ -9,6 +9,8 @@ use crate::part4_b::Game as GameB;
 use crate::part5_a::compute_overlapping_lines;
 use crate::part5_b::compute_overlapping_lines as compute_overlapping_lines_all;
 use crate::part6::model_population;
+use crate::part7_a::cheapest_alignment;
+use crate::part7_b::cheapest_increasing_alignment;
 
 pub mod part1_a;
 pub mod part1_b;
@@ -21,7 +23,8 @@ mod part4_b;
 mod part5_a;
 mod part5_b;
 mod part6;
-mod part7;
+mod part7_a;
+mod part7_b;
 
 fn main() {
     // Part 1
@@ -103,4 +106,11 @@ fn main() {
     // println!("Result 6.B: {}", model_population(&input6, 256));
 
     // Part 7
+    let mut input7: Vec<i32> = include_str!("part7_input.txt")
+    .split(",")
+    .map(|input| input.trim().parse().unwrap())
+    .collect();
+    println!("Result 7.A: {:?}", cheapest_alignment(&mut input7));
+    println!("Result 7.B: {:?}", cheapest_increasing_alignment(&mut input7));
+
 }

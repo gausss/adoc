@@ -41,6 +41,7 @@ pub fn model_population(initial_population: &Vec<i32>, passing_days: i32) -> usi
     return modeled_population.len();
 }
 
+#[cfg(test)]
 mod tests {
     use super::*;
 
