@@ -11,6 +11,8 @@ use crate::part5_b::compute_overlapping_lines as compute_overlapping_lines_all;
 use crate::part6::model_population;
 use crate::part7_a::cheapest_alignment;
 use crate::part7_b::cheapest_increasing_alignment;
+use crate::part8_a::count_simple_digits;
+use crate::part8_b::count_digits;
 
 pub mod part1_a;
 pub mod part1_b;
@@ -25,6 +27,8 @@ mod part5_b;
 mod part6;
 mod part7_a;
 mod part7_b;
+mod part8_a;
+mod part8_b;
 
 fn main() {
     // Part 1
@@ -103,7 +107,7 @@ fn main() {
         1, 2, 3, 5, 3, 5, 5, 4, 3, 1, 5, 1, 1, 2, 3, 2, 2, 1, 1, 2, 1, 4, 1, 2, 3, 3, 3, 1, 3, 5,
     ];
     println!("Result 6.A: {}", model_population(&input6, 80));
-    // println!("Result 6.B: {}", model_population(&input6, 256));
+    println!("Result 6.B: {}", model_population(&input6, 256));
 
     // Part 7
     let mut input7: Vec<i32> = include_str!("part7_input.txt")
@@ -112,5 +116,10 @@ fn main() {
     .collect();
     println!("Result 7.A: {:?}", cheapest_alignment(&mut input7));
     println!("Result 7.B: {:?}", cheapest_increasing_alignment(&mut input7));
-
+   
+    // Part 8
+    let input8 = include_str!("part8_input.txt").lines();
+    println!("Result 8.A: {:?}", count_simple_digits(input8));
+    let input8b = include_str!("part8_input.txt").lines();
+    println!("Result 8.B: {:?}", count_digits(input8b));
 }
