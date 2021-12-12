@@ -35,8 +35,6 @@ pub fn model_population(initial_population: &Vec<i32>, passing_days: i32) -> usi
                 time_to_breed: 8
             });
         }
-
-        println!("Day {}, {}", _day, modeled_population.len());
     }
     return modeled_population.len();
 }

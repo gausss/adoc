@@ -14,12 +14,12 @@ use crate::part7_b::cheapest_increasing_alignment;
 use crate::part8_a::count_simple_digits;
 use crate::part8_b::count_digits;
 
-pub mod part1_a;
-pub mod part1_b;
-pub mod part2_a;
-pub mod part2_b;
-pub mod part3_a;
-pub mod part3_b;
+mod part1_a;
+mod part1_b;
+mod part2_a;
+mod part2_b;
+mod part3_a;
+mod part3_b;
 mod part4_a;
 mod part4_b;
 mod part5_a;
@@ -29,6 +29,7 @@ mod part7_a;
 mod part7_b;
 mod part8_a;
 mod part8_b;
+mod part9_a;
 
 fn main() {
     // Part 1
@@ -107,7 +108,6 @@ fn main() {
         1, 2, 3, 5, 3, 5, 5, 4, 3, 1, 5, 1, 1, 2, 3, 2, 2, 1, 1, 2, 1, 4, 1, 2, 3, 3, 3, 1, 3, 5,
     ];
     println!("Result 6.A: {}", model_population(&input6, 80));
-    println!("Result 6.B: {}", model_population(&input6, 256));
 
     // Part 7
     let mut input7: Vec<i32> = include_str!("part7_input.txt")
@@ -122,4 +122,8 @@ fn main() {
     println!("Result 8.A: {:?}", count_simple_digits(input8));
     let input8b = include_str!("part8_input.txt").lines();
     println!("Result 8.B: {:?}", count_digits(input8b));
+
+    // Part 9
+    let input9 = include_str!("part9_input.txt").lines();
+    println!("Result 9.A: {:?}", count_simple_digits(input9));
 }
