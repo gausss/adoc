@@ -104,6 +104,15 @@ mod tests {
 
     #[test]
     fn test() {
-        assert_eq!(compute_overlapping_lines("src/part5_test_input.txt"), 5);
+        assert_eq!(compute_overlapping_lines("src/input/part5_test_input.txt"), 5);
+    }
+
+    #[test]
+    fn solve() {
+        // Part 5
+        println!(
+            "Result 5.A: {}",
+            compute_overlapping_lines("src/input/part5_input.txt")
+        );
     }
 }

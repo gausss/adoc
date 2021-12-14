@@ -26,10 +26,7 @@ pub fn compute_position(movements: Vec<&str>) -> i32 {
     };
 
     for movement_string in movements {
-        let movement_parts: Vec<&str> = movement_string
-            .split_whitespace()
-            .into_iter()
-            .collect();
+        let movement_parts: Vec<&str> = movement_string.split_whitespace().into_iter().collect();
         let movement = Movement {
             direction: movement_parts[0].to_string(),
             amount: movement_parts[1].parse().unwrap(),
@@ -57,5 +54,14 @@ mod tests {
         ];
 
         assert_eq!(compute_position(input_values.to_vec()), 150);
+    }
+
+    #[test]
+    fn solve() {
+        let input: Vec<&str> = include_str!("input/part2_input.txt")
+            .split(",")
+            .map(|input| input.trim())
+            .collect();
+        println!("Result 2.A: {}", compute_position(input.to_vec()));
     }
 }

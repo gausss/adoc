@@ -28,11 +28,7 @@ fn compute_commons(rows: &Vec<Vec<char>>, position: usize) -> (&str, &str) {
     let sum: u32 = values.iter().map(|num| num.to_digit(10).unwrap()).sum();
     let ratio = (sum as f32) / length;
 
-    return if ratio > 0.5 {
-        ("0", "1")
-    } else {
-        ("1", "0")
-    };
+    return if ratio > 0.5 { ("0", "1") } else { ("1", "0") };
 }
 
 #[cfg(test)]
@@ -47,5 +43,13 @@ mod tests {
         ];
 
         assert_eq!(compute_power_consumption(input_values.to_vec()), 198);
+    }
+    #[test]
+    fn solve() {
+        let input: Vec<&str> = include_str!("input/part3_input.txt")
+            .split(",")
+            .map(|line| line.trim())
+            .collect();
+        println!("Result 3.A: {}", compute_power_consumption(input.to_vec()));
     }
 }

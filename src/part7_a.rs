@@ -16,4 +16,12 @@ mod tests {
 
         assert_eq!(cheapest_alignment(&mut input), (2, 37));
     }
+    #[test]
+    fn solve() {
+        let mut input: Vec<i32> = include_str!("input/part7_input.txt")
+            .split(",")
+            .map(|input| input.trim().parse().unwrap())
+            .collect();
+        println!("Result 7.A: {:?}", cheapest_alignment(&mut input));
+    }
 }

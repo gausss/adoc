@@ -43,7 +43,7 @@ impl Vector {
                 positions.push((self.direction.0.x, y));
             }
         } else {
-            let x_span : Vec<i32>;
+            let x_span: Vec<i32>;
             if self.direction.0.x < self.direction.1.x {
                 x_span = (self.direction.0.x..self.direction.1.x + 1).collect();
             } else {
@@ -125,6 +125,13 @@ mod tests {
 
     #[test]
     fn test() {
-        assert_eq!(compute_overlapping_lines("src/part5_test_input.txt"), 12);
+        assert_eq!(compute_overlapping_lines("src/input/part5_test_input.txt"), 12);
+    }
+    #[test]
+    fn solve() {
+        println!(
+            "Result 5.B: {}",
+            compute_overlapping_lines("src/input/part5_input.txt")
+        );
     }
 }

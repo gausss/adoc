@@ -32,4 +32,15 @@ mod tests {
 
         assert_eq!(cheapest_increasing_alignment(&input), 168);
     }
+    #[test]
+    fn solve() {
+        let mut input: Vec<i32> = include_str!("input/part7_input.txt")
+            .split(",")
+            .map(|input| input.trim().parse().unwrap())
+            .collect();
+        println!(
+            "Result 7.B: {:?}",
+            cheapest_increasing_alignment(&mut input)
+        );
+    }
 }

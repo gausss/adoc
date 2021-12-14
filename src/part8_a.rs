@@ -13,8 +13,13 @@ mod tests {
 
     #[test]
     fn test() {
-        let input8 = include_str!("part8_test_input.txt").lines();
+        let input8 = include_str!("input/part8_test_input.txt").lines();
 
         assert_eq!(count_simple_digits(input8), 26);
+    }
+    #[test]
+    fn solve() {
+        let input = include_str!("input/part8_input.txt").lines();
+        println!("Result 8.A: {:?}", count_simple_digits(input));
     }
 }

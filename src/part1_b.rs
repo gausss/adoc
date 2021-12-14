@@ -21,4 +21,17 @@ mod tests {
 
         assert_eq!(count_increasing_sliding_windows(input_values.to_vec()), 5);
     }
+
+    #[test]
+    fn solve() {
+        let input: Vec<i32> = include_str!("input/part1_input.txt")
+            .split(",")
+            .map(|input| input.trim().parse().unwrap())
+            .collect();
+
+        println!(
+            "Result 1.B: {}",
+            count_increasing_sliding_windows(input.to_vec())
+        );
+    }
 }

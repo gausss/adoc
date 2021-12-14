@@ -61,8 +61,13 @@ mod tests {
 
     #[test]
     fn test() {
-        let input8 = include_str!("part8_test_input.txt").lines();
+        let input8 = include_str!("input/part8_test_input.txt").lines();
 
         assert_eq!(count_digits(input8), 61229);
+    }
+    #[test]
+    fn solve() {
+        let input = include_str!("input/part8_input.txt").lines();
+        println!("Result 8.B: {:?}", count_digits(input));
     }
 }

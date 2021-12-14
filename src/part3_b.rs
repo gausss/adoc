@@ -10,7 +10,8 @@ pub fn compute_life_support(diagnostic_strings: Vec<&str>) -> i32 {
     for position in 0..max_index {
         if oxygen_candidates.len() > 1 {
             let commons_oxygen = compute_commons(&oxygen_candidates, position);
-            oxygen_candidates = clean_candidates(&mut oxygen_candidates, position, &commons_oxygen.1);
+            oxygen_candidates =
+                clean_candidates(&mut oxygen_candidates, position, &commons_oxygen.1);
         }
 
         if carbo_candidates.len() > 1 {
@@ -19,8 +20,18 @@ pub fn compute_life_support(diagnostic_strings: Vec<&str>) -> i32 {
         }
     }
 
-    let oxygen_string: String = oxygen_candidates.get(0).unwrap().iter().map(|digit| digit.to_string()).collect();
-    let carbo_string: String = carbo_candidates.get(0).unwrap().iter().map(|digit| digit.to_string()).collect();
+    let oxygen_string: String = oxygen_candidates
+        .get(0)
+        .unwrap()
+        .iter()
+        .map(|digit| digit.to_string())
+        .collect();
+    let carbo_string: String = carbo_candidates
+        .get(0)
+        .unwrap()
+        .iter()
+        .map(|digit| digit.to_string())
+        .collect();
 
     let oxygen = isize::from_str_radix(&oxygen_string, 2).unwrap() as i32;
     let carbo = isize::from_str_radix(&carbo_string, 2).unwrap() as i32;
@@ -37,14 +48,14 @@ fn compute_commons(rows: &Vec<Vec<char>>, position: usize) -> (char, char) {
     let sum: u32 = values.iter().map(|num| num.to_digit(10).unwrap()).sum();
     let ratio = (sum as f32) / length;
 
-    return if ratio >= 0.5 {
-        ('0', '1')
-    } else {
-        ('1', '0')
-    };
+    return if ratio >= 0.5 { ('0', '1') } else { ('1', '0') };
 }
 
-fn clean_candidates(rows: &mut Vec<Vec<char>>, position: usize, match_value: &char) -> Vec<Vec<char>> {
+fn clean_candidates(
+    rows: &mut Vec<Vec<char>>,
+    position: usize,
+    match_value: &char,
+) -> Vec<Vec<char>> {
     let mut values = Vec::new();
     for row in rows {
         if row.get(position).unwrap() == match_value {
@@ -67,5 +78,14 @@ mod tests {
         ];
 
         assert_eq!(compute_life_support(input_values.to_vec()), 230);
+    }
+
+    #[test]
+    fn solve() {
+        let input: Vec<&str> = include_str!("input/part3_input.txt")
+            .split(",")
+            .map(|line| line.trim())
+            .collect();
+        println!("Result 3.B: {}", compute_life_support(input.to_vec()));
     }
 }
