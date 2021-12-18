@@ -18,5 +18,7 @@ mod part9_a;
 mod part9_b;
 mod part10_a;
 mod part10_b;
+mod part11_a;
+mod part11_b;
 
 fn main() {}

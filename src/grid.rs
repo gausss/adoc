@@ -44,6 +44,25 @@ impl<'a, T: Clone> Grid<T> {
             .collect()
     }
 
+    pub fn neighbors_ext_at(&self, x: i32, y: i32) -> Vec<(T, (usize, usize))> {
+        [
+            (x, y - 1),
+            (x + 1, y - 1),
+            (x + 1, y),
+            (x + 1, y + 1),
+            (x, y + 1),
+            (x - 1, y + 1),
+            (x - 1, y),
+            (x - 1, y - 1),
+        ]
+            .iter()
+            .filter_map(|point| {
+                self.cell_at(point.0, point.1)
+                    .map(|cell| (cell, (point.0 as usize, point.1 as usize)))
+            })
+            .collect()
+    }
+
     fn index_for(&self, x: usize, y: usize) -> usize {
         y * self.width + x
     }
@@ -61,11 +80,11 @@ mod tests {
             Grid {
                 cells: vec![1, 2, 3, 4, 5, 6],
                 width: 2,
-                height: 3
+                height: 3,
             }
         );
     }
-    
+
     #[test]
     fn test_grid_cell_at() {
         let input = vec![1, 2, 3, 4, 5, 6];
