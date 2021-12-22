@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -13,7 +12,6 @@ type edge struct {
 func traverse(edges []edge, path []string) (paths [][]string) {
 	current := path[len(path)-1]
 	if current == "end" {
-		fmt.Printf("Ok! path %+v \n", path)
 		return [][]string{path}
 	}
 

@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"bufio"
@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func readFile(path string) (fileLines []string) {
+func ReadFile(path string) (fileLines []string) {
 	file, err := os.Open(path)
 	if err != nil {
 		log.Fatal(err)
@@ -22,18 +22,4 @@ func readFile(path string) (fileLines []string) {
 		log.Fatal(err)
 	}
 	return fileLines
-}
-
-func max(x, y int) int {
-	if x < y {
-		return y
-	}
-	return x
-}
-
-func min(x, y int) int {
-	if x > y {
-		return y
-	}
-	return x
 }
