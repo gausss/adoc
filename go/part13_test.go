@@ -17,7 +17,7 @@ func TestComputeVisibleDots(t *testing.T) {
 	}
 }
 
-func TestSolve(t *testing.T) {
+func TestSolve13(t *testing.T) {
 	var lines = utils.ReadFile("input/part13_input.txt")
 	var paper = makePaper(lines)
 	paper.foldX(655)
